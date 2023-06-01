@@ -1,6 +1,7 @@
 package com.pokemonreview.api.controllers;
 
 import com.pokemonreview.api.dto.PokemonDto;
+import com.pokemonreview.api.dto.PokemonResponse;
 import com.pokemonreview.api.models.Pokemon;
 import com.pokemonreview.api.service.PokemonService;
 import org.apache.coyote.Response;
@@ -24,9 +25,12 @@ public class PokemonController {
     }
 
     @GetMapping("/pokemon")
-    public ResponseEntity<List<PokemonDto>> getPokemons() {
+    public ResponseEntity<PokemonResponse> getPokemons(
+            @RequestParam(value="pageNumber", defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(value="pageSize", defaultValue = "10", required = false) int pageSize
+    ) {
 
-        return new ResponseEntity<>(pokemonService.getAllPokemons(), HttpStatus.OK);
+        return new ResponseEntity<>(pokemonService.getAllPokemons(pageNumber, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("/pokemon/{id}")
